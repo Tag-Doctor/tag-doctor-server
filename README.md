@@ -94,8 +94,9 @@ Gemini API 사용해보기
 <br>
 <br>
 
-## 🔥 Trouble Shooting
+## 🔥 Trouble Shootin
 
 ### Issue1
+
 
 <br/>
