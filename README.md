@@ -8,7 +8,7 @@
 
 <br />
 
-Gemini API 사용해보기
+Gemini API 사용을 통한 건강 정보 웹 서비스 개발
 
 <br/>
 
