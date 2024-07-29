@@ -1,1 +1,10 @@
-spring.application.name=TagDoctor
+spring:
+  application:
+    name: TagDoctor
+
+gemini:
+  baseurl: https://generativelanguage.googleapis.com
+
+googleAi:
+  api:
+    key: AIzaSyDLJ9jCX7N4aBYwD68rQRbSLPpnjHjckTY
