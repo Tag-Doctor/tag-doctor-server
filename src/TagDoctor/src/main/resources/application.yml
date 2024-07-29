@@ -4,7 +4,3 @@ spring:
 
 gemini:
   baseurl: https://generativelanguage.googleapis.com
-
-googleAi:
-  api:
-    key: AIzaSyDLJ9jCX7N4aBYwD68rQRbSLPpnjHjckTY
