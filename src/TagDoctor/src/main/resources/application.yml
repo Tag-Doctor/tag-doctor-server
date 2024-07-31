@@ -3,4 +3,6 @@ spring:
     name: TagDoctor
 
 gemini:
-  baseurl: https://generativelanguage.googleapis.com
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
