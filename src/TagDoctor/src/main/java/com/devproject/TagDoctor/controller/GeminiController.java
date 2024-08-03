@@ -2,6 +2,7 @@ package com.devproject.TagDoctor.controller;
 
 import com.devproject.TagDoctor.service.GeminiService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestController // 이 어노테이션이 붙은 클래스는 JSON 또는 XML 형태의 데이터를 반환
 @RequiredArgsConstructor // final 로 선언된 필드에 대해 생성자를 자동으로 생성, 생성자 주입 가능
 @RequestMapping("/gemini") // 이 컨트롤러의 모든 엔드포인트는 /gemini 로 시작
+@Slf4j
 public class GeminiController { // Controller 에서는 Get /gemini/chat 으로 요청만 받아옴
 
     private final GeminiService geminiService;
@@ -26,6 +28,16 @@ public class GeminiController { // Controller 에서는 Get /gemini/chat 으로 
             // 만약 HttpClientErrorException 예외가 발생하면, ResponseEntity.badRequest().body(e.getMessage())를 사용하여 HTTP 400 Bad Request 응답과 함께 예외 메시지를 응답 본문으로 보냄
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/test/log")
+    public ResponseEntity<Void> logTest(){
+        log.error("에러로그 발생");
+        log.debug("디버그로그 발생");
+        log.info("Info로그 발생");
+        log.warn("경고로그 발생");
+
+        return ResponseEntity.ok().build();
     }
 }
 
