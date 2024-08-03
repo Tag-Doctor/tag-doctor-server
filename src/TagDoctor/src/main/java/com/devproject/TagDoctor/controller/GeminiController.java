@@ -4,10 +4,13 @@ import com.devproject.TagDoctor.service.GeminiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 // 이 컨트롤러는 /gemini 경로에 대한 HTTP 요청을 처리
 @RestController // 이 어노테이션이 붙은 클래스는 JSON 또는 XML 형태의 데이터를 반환
@@ -19,18 +22,24 @@ public class GeminiController { // Controller 에서는 Get /gemini/chat 으로 
     private final GeminiService geminiService;
 
     // HTTP GET 요청이 /gemini/chat 경로로 들어오면 gemini() 메서드가 호출
-    @GetMapping("/chat")
+    @PostMapping("/chat")
     public ResponseEntity<?> gemini() { // 이 메서드는 ResponseEntity 객체를 반환
         try {
             // 이 호출이 성공하면, ResponseEntity.ok().body(...)를 사용하여 HTTP 200 OK 응답과 함께 서비스에서 반환된 결과를 응답 본문으로 보냄
-            return ResponseEntity.ok().body(geminiService.getContents("안녕! 너는 누구야?"));
+            // return ResponseEntity.ok().body(geminiService.getContents("안녕! 너는 누구야?"));
+
+            // 응답을 JSON 형식으로 변환
+            String result = geminiService.getContents("안녕! 너는 누구야?");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", result);
+            return ResponseEntity.ok().body(response);
         } catch (HttpClientErrorException e) {
             // 만약 HttpClientErrorException 예외가 발생하면, ResponseEntity.badRequest().body(e.getMessage())를 사용하여 HTTP 400 Bad Request 응답과 함께 예외 메시지를 응답 본문으로 보냄
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/test/log")
+    @PostMapping("/test/log")
     public ResponseEntity<Void> logTest(){
         log.error("에러로그 발생");
         log.debug("디버그로그 발생");
