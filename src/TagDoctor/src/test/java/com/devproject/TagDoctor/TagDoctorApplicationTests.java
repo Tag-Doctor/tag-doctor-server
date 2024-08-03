@@ -1,5 +1,8 @@
 package com.devproject.TagDoctor;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.devproject.TagDoctor.dto.GeminiRequest;
 import com.devproject.TagDoctor.dto.GeminiResponse;
 import com.devproject.TagDoctor.service.GeminiService;
@@ -12,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
-import static org.mockito.Mockito.when;
+import java.util.Collections;
 
 @ExtendWith(MockitoExtension.class)
 class TagDoctorApplicationTests {
@@ -39,17 +42,29 @@ class TagDoctorApplicationTests {
     public void testGetContents() {
         // given: 설정할 데이터
         String prompt = "안녕! 너는 누구야?";
+        String expectedMessage = "응답 메시지";
 
         // Mock 응답 데이터 생성
         GeminiResponse mockResponse = new GeminiResponse();
-        // (예시 데이터 설정)
-        // mockResponse.setCandidates(Collections.singletonList(new Candidate(new Content(new Part(expectedMessage)))));
+        GeminiResponse.Candidate candidate = new GeminiResponse.Candidate();
+        GeminiResponse.Content content = new GeminiResponse.Content();
+        GeminiResponse.Parts part = new GeminiResponse.Parts();
+        part.setText(expectedMessage);
+        content.setParts(Collections.singletonList(part));
+        candidate.setContent(content);
+        mockResponse.setCandidates(Collections.singletonList(candidate));
 
-        // RestTemplate 의 postForObject 메서드 호출 시 Mock 데이터 반환 설정
+        // RestTemplate의 postForObject 메서드 호출 시 Mock 데이터 반환 설정
         when(restTemplate.postForObject(
-                apiUrl + "?key=" + geminiApiKey,
-                new GeminiRequest(prompt),
-                GeminiResponse.class
+                eq(apiUrl + "?key=" + geminiApiKey),
+                any(GeminiRequest.class),
+                eq(GeminiResponse.class)
         )).thenReturn(mockResponse);
+
+        // when: 서비스 메서드 호출
+        String actualMessage = geminiService.getContents(prompt);
+
+        // then: 반환된 값 검증
+        assertEquals(expectedMessage, actualMessage);
     }
 }
