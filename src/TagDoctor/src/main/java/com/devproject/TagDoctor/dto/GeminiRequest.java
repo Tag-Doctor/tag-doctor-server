@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder // 빌더 패턴을 사용하여 객체를 생성
 public class GeminiRequest {
+
     private List<Content> contents; // Content 객체의 리스트를 저장하는 필드, 프론트엔드에서 여러 개의 콘텐츠를 요청할 수 있다!!
     private GenerationConfig generationConfig; // 생성 설정을 저장하는 필드, 이 설정은 텍스트 생성 관련 매개변수를 포함
 

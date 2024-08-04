@@ -1,10 +1,13 @@
 package com.devproject.TagDoctor.controller;
 
+import com.devproject.TagDoctor.dto.GeminiRequest;
+import com.devproject.TagDoctor.dto.RequestDto;
 import com.devproject.TagDoctor.service.GeminiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,20 +24,21 @@ public class GeminiController { // Controller 에서는 Get /gemini/chat 으로 
 
     private final GeminiService geminiService;
 
-    // HTTP GET 요청이 /gemini/chat 경로로 들어오면 gemini() 메서드가 호출
     @PostMapping("/chat")
-    public ResponseEntity<?> gemini() { // 이 메서드는 ResponseEntity 객체를 반환
+    public ResponseEntity<?> handleRequest(@RequestBody RequestDto request) {
         try {
-            // 이 호출이 성공하면, ResponseEntity.ok().body(...)를 사용하여 HTTP 200 OK 응답과 함께 서비스에서 반환된 결과를 응답 본문으로 보냄
-            // return ResponseEntity.ok().body(geminiService.getContents("안녕! 너는 누구야?"));
+            // 요청 데이터의 내용을 로깅
+            log.info("Received request: {}", request);
 
-            // 응답을 JSON 형식으로 변환
-            String result = geminiService.getContents("안녕! 너는 누구야?");
+            // GeminiService를 호출하여 API에 요청을 보내고 응답을 받아옴
+            String result = geminiService.getContents(request);
+
+            // 응답을 JSON 형식으로 변환하여 반환
             Map<String, String> response = new HashMap<>();
             response.put("message", result);
             return ResponseEntity.ok().body(response);
         } catch (HttpClientErrorException e) {
-            // 만약 HttpClientErrorException 예외가 발생하면, ResponseEntity.badRequest().body(e.getMessage())를 사용하여 HTTP 400 Bad Request 응답과 함께 예외 메시지를 응답 본문으로 보냄
+            // 오류 발생 시 처리
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

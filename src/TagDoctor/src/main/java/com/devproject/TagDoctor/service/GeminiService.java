@@ -2,6 +2,7 @@ package com.devproject.TagDoctor.service;
 
 import com.devproject.TagDoctor.dto.GeminiRequest;
 import com.devproject.TagDoctor.dto.GeminiResponse;
+import com.devproject.TagDoctor.dto.RequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,24 +25,46 @@ public class GeminiService {
     @Value("${gemini.api.key}")
     private String geminiApiKey;
 
-    public String getContents(String prompt) {
-
-        // Gemini 에 요청 전송, apiUrl 과 geminiApiKey 를 결합하여 요청 URL 을 생성
+    public String getContents(RequestDto requestDto) {
+        // Gemini API에 요청 전송
         String requestUrl = apiUrl + "?key=" + geminiApiKey;
 
         try {
-            GeminiRequest request = new GeminiRequest(prompt); // 요청 객체 생성
-            GeminiResponse response = restTemplate.postForObject(requestUrl, request, GeminiResponse.class); // API 호출, RestTemplate 의 postForObject 메서드를 사용하여 POST 요청을 보냄
+            // RequestDto를 GeminiRequest로 변환
+            GeminiRequest geminiRequest = convertToGeminiRequest(requestDto);
 
-            // GeminiResponse 객체에서 응답 데이터를 추출, 응답에서 첫 번째 후보(Candidate)의 내용(Content)을 가져오고, 그 안의 첫 번째 파트(Parts)의 텍스트(Text)를 추출
-            String message = response.getCandidates().get(0).getContent().getParts().get(0).getText().toString(); // 응답 처리
+            // API 호출, RestTemplate의 postForObject 메서드를 사용하여 POST 요청을 보냄
+            GeminiResponse response = restTemplate.postForObject(requestUrl, geminiRequest, GeminiResponse.class);
 
-            return message; // 추출한 메시지를 반환
+            // GeminiResponse 객체에서 응답 데이터 추출
+            if (response != null && response.getCandidates() != null && !response.getCandidates().isEmpty()) {
+                // 첫 번째 후보의 콘텐츠에서 텍스트 추출
+                String message = response.getCandidates().get(0).getContent().getParts().get(0).getText();
+                return message;
+            } else {
+                return "No response from API.";
+            }
         } catch (HttpClientErrorException e) {
-            // Log error details
+            // 오류 발생 시 처리
             System.err.println("Error response: " + e.getResponseBodyAsString());
             return "Error occurred: " + e.getMessage();
         }
+    }
+
+    // RequestDto를 GeminiRequest로 변환하는 메서드
+    private GeminiRequest convertToGeminiRequest(RequestDto requestDto) {
+        // GeminiRequest 객체를 생성하고 RequestDto에서 데이터를 설정
+        String prompt = String.format(
+                "Health Information: 나이는 %s살이고, 신체 부위는 %s 중에 %s에서 %s가 아파요. 추가 정보: %s",
+                requestDto.getSelectedAge(),
+                requestDto.getSelectedPart(),
+                requestDto.getSelectedSubPart(),
+                requestDto.getSelectedDetail(),
+                requestDto.getAdditionalInfo()
+        );
+
+        // GeminiRequest 객체 생성
+        return new GeminiRequest(prompt);
     }
 }
 
