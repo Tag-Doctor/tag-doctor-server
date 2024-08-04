@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.devproject.TagDoctor.dto.GeminiRequest;
 import com.devproject.TagDoctor.dto.GeminiResponse;
+import com.devproject.TagDoctor.dto.RequestDto;
 import com.devproject.TagDoctor.service.GeminiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ class TagDoctorApplicationTests {
         )).thenReturn(mockResponse);
 
         // when: 서비스 메서드 호출
-        String actualMessage = geminiService.getContents(prompt);
+        String actualMessage = geminiService.getContents(new RequestDto());
 
         // then: 반환된 값 검증
         assertEquals(expectedMessage, actualMessage);
