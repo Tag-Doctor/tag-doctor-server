@@ -1,1 +1,8 @@
-spring.application.name=TagDoctor
+spring:
+  application:
+    name: TagDoctor
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
