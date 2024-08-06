@@ -13,7 +13,7 @@
 
     <!-- Logstash Appender -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:50000</destination>
+        <destination>logstash:50000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
