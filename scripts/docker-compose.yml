@@ -1,5 +1,15 @@
 version: '3.8'
 services:
+  tagdoctor-app:
+    image: sso9594/tagdoctor
+    container_name: tagdoctor-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - logstash
+    environment:
+      GEMINI_URL: https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent
+      GEMINI_KEY: AIzaSyCRch7nwrX6NcMLl0yGYmtigt0BfoPwfrSo
   setup:
     profiles:
       - setup
