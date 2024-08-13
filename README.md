@@ -1,14 +1,14 @@
+# projectFront
+
 # [TagDoctor]()
 
-<b>건강 진단 및 건강 정보 제공 웹 서비스</b>
+<b>건강 진단 및 정보 제공 웹 서비스</b>
 
 <br />
 
 ## TagDoctor
 
-<br />
-
-Gemini API 사용을 통한 건강 정보 웹 서비스 개발
+Gemini API 사용해보기
 
 <br/>
 
@@ -72,7 +72,6 @@ Gemini API 사용을 통한 건강 정보 웹 서비스 개발
 
 <p>
   <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">
 </p>
 
 #### Infrastructure
@@ -88,15 +87,14 @@ Gemini API 사용을 통한 건강 정보 웹 서비스 개발
   <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
   <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white">
-  <img src="https://img.shields.io/badge/Slack-ff007f?style=for-the-badge&logo=slack&logoColor=ff007f">
+  <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/> 
+  <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/>
 </p>
 
 <br>
-<br>
 
-## 🔥 Trouble Shootin
+## 🔥 Trouble Shooting
 
 ### Issue1
-
 
 <br/>
